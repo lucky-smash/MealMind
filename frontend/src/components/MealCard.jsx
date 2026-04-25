@@ -12,6 +12,13 @@ export default function MealCard({ title, items }) {
                         <span className="mt-0.5 text-base">🍽️</span>
                         <div>
                             <p className="text-white font-medium">{item.name}</p>
+                            {item.reason && (
+                                <ul className="text-xs text-gray-400 mt-1">
+                                    {item.reason.map((r, i) => (
+                                        <li key={i}>• {r}</li>
+                                    ))}
+                                </ul>
+                            )}
                             <p className="text-slate-500 text-xs">
                                 {item.protein}g protein · ₹{item.cost}
                             </p>
@@ -19,6 +26,8 @@ export default function MealCard({ title, items }) {
                     </div>
                 ))}
             </div>
+
+
         </div>
     );
 }

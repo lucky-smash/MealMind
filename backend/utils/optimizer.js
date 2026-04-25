@@ -25,7 +25,7 @@ function optimizeMeals(weight, goal, budget, preference) {
   }));
 
   // 3. Sort by efficiency
-  enrichedFoods.sort((a, b) => b.efficiency - a.efficiency);
+  // enrichedFoods.sort((a, b) => b.efficiency - a.efficiency);
 
   // let totalCost = 0;
   // let totalProtein = 0;
@@ -50,11 +50,30 @@ function optimizeMeals(weight, goal, budget, preference) {
   // }
 
   const usage = {};
+  function explainFood(food, usage, budgetLeft) {
+    const reasons = [];
 
+    if (food.efficiency > 1) {
+      reasons.push("High protein per rupee");
+    }
+
+    if ((usage[food.name] || 0) === 0) {
+      reasons.push("Added for variety");
+    } else {
+      reasons.push("Used before, slightly penalized");
+    }
+
+    if (food.cost <= budgetLeft) {
+      reasons.push("Fits remaining budget");
+    }
+
+    return reasons;
+  }
   function fillMeal(targetProtein, foods, budgetLeft) {
     let meal = [];
     let protein = 0;
     let cost = 0;
+
 
     // for (let food of foods) {
     //   if (usage[food.name] >= 2) continue;
@@ -114,7 +133,10 @@ function optimizeMeals(weight, goal, budget, preference) {
       if (cost + bestFood.cost > budgetLeft / remainingMeals) break;
 
       // STEP 3: add to meal
-      meal.push(bestFood);
+      meal.push({
+        ...bestFood,
+        reason: explainFood(bestFood, usage, budgetLeft - cost)
+      });
       protein += bestFood.protein;
       cost += bestFood.cost;
 
