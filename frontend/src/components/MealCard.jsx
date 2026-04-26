@@ -19,6 +19,7 @@ export default function MealCard({ title, items }) {
                                     ))}
                                 </ul>
                             )}
+
                             <p className="text-slate-500 text-xs">
                                 {item.protein}g protein · ₹{item.cost}
                             </p>

@@ -35,6 +35,7 @@ export default function Result({ result }) {
 
             {/* Insight */}
             <InsightBox text={result.insight} />
+            <p>{result.aiExplanation}</p>
         </div>
     );
 }

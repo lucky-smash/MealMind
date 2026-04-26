@@ -100,7 +100,7 @@ function optimizeMeals(weight, goal, budget, preference) {
     //   }
     // }
     // return { meal, protein, cost };
-    while (protein < targetProtein && meal.length < 3) {
+    while (protein < targetProtein) {
 
       // STEP 1: sort based on updated usage
       // foods.sort((a, b) => {
@@ -121,7 +121,11 @@ function optimizeMeals(weight, goal, budget, preference) {
       if (availableFoods.length === 0) break;
 
       availableFoods.sort((a, b) => {
-        const scoreA = a.efficiency - (usage[a.name] || 0) * 5;
+        const remainingProtein = targetProtein - protein;
+        const scoreA =
+          a.efficiency
+          - (usage[a.name] || 0) * 5
+          - (a.protein > remainingProtein ? 2 : 0); // penalty if too heavy
         const scoreB = b.efficiency - (usage[b.name] || 0) * 5;
         return scoreB - scoreA;
       });

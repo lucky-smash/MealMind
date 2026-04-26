@@ -4,11 +4,9 @@ const cors = require('cors');
 const mealRoutes = require("./routes/mealRoutes");
 require('dotenv').config();
 
-
-
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+console.log("API KEY:", process.env.GEMINI_API_KEY);
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -20,8 +18,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mealmind'
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.log(err));
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
 
 // Routes
 app.get('/', (req, res) => {
