@@ -5,7 +5,7 @@ const ai = new GoogleGenAI({
 });
 
 async function explainMealAI(mealPlan) {
-  const prompt = `Explain spider-man 
+  const prompt = `Explain this meal plan in simple terms:
 ${JSON.stringify(mealPlan, null, 2)}`;
 
   try {

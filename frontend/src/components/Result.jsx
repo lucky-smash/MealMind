@@ -1,5 +1,6 @@
 import MealCard from "./MealCard";
 import InsightBox from "./InsightBox";
+import AIExplanation from "./AIExplanation";
 
 export default function Result({ result }) {
     return (
@@ -35,7 +36,9 @@ export default function Result({ result }) {
 
             {/* Insight */}
             <InsightBox text={result.insight} />
-            <p>{result.aiExplanation}</p>
+
+            {/* AI Explanation */}
+            <AIExplanation text={result.aiExplanation} />
         </div>
     );
 }

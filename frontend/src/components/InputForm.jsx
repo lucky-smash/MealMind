@@ -90,7 +90,7 @@ export default function InputForm({ onGenerate , loading }) {
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-brand-500 to-brand-600 disabled:opacity-50"
+        className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-brand-500 to-brand-600 disabled:opacity-50 border-radius-[10px]"
       >
         {loading ? "Generating..." : "Generate Meal Plan ✨"}
       </button>
