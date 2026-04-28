@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const mealRoutes = require("./routes/mealRoutes");
-require('dotenv').config();
 
+const mealRoutes = require("./routes/mealRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 console.log("API KEY:", process.env.GEMINI_API_KEY);

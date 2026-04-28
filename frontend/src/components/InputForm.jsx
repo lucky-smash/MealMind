@@ -1,23 +1,25 @@
 import { useState } from "react";
 
-export default function InputForm({ onGenerate }) {
+export default function InputForm({ onGenerate , loading }) {
   const [form, setForm] = useState({
     weight: "",
     goal: "fat_loss",
     budget: "",
     preference: "veg_egg",
   });
+  // const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    onGenerate({
+  const handleSubmit = async () => {
+    await onGenerate({
       ...form,
       weight: Number(form.weight),
       budget: Number(form.budget),
     });
+  
   };
 
   return (
@@ -87,9 +89,10 @@ export default function InputForm({ onGenerate }) {
 
       <button
         onClick={handleSubmit}
-        className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all duration-300 cursor-pointer active:scale-[0.98]"
+        disabled={loading}
+        className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-brand-500 to-brand-600 disabled:opacity-50"
       >
-        Generate Meal Plan ✨
+        {loading ? "Generating..." : "Generate Meal Plan ✨"}
       </button>
     </div>
   );

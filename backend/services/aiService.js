@@ -1,34 +1,33 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
 
 async function explainMealAI(mealPlan) {
-    try {
-        const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash"
-        });
+  const prompt = `Explain spider-man 
+${JSON.stringify(mealPlan, null, 2)}`;
 
-        const prompt = "Say hello in 1 line";
-        // const result = await model.generateContent(prompt);
-        // const response = await result.response;
-        try {
-            const result = await model.generateContent(prompt);
-            const response = await result.response;
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview", // ✅ MATCH POSTMAN
+      contents: [
+        {
+          parts: [{ text: prompt }],
+        },
+      ],
+    });
 
-            console.log("AI RAW:", response);
+    const text =
+      response.text ||
+      response.candidates?.[0]?.content?.parts?.[0]?.text;
 
-            return response.text();
-        } catch (err) {
-            console.log("AI ERROR FULL:", err);
-            return "AI explanation not available";
-        }
+    return text || "No AI response";
 
-        return response.text();
-
-    } catch (err) {
-        console.log("AI ERROR:", err.message);
-        return "AI explanation not available";
-    }
+  } catch (err) {
+    console.log("FULL ERROR:", err);
+    return "⚠️ AI failed. Try again.";
+  }
 }
 
 module.exports = { explainMealAI };

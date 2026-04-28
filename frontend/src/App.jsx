@@ -4,8 +4,11 @@ import Result from "./components/Result.jsx";
 
 export default function App() {
   const [result, setResult] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const generatePlan = async (formData) => {
+    if (isGenerating) return;
+    setIsGenerating(true);
     try {
       const res = await fetch("http://localhost:5000/api/meals/generate", {
         method: "POST",
@@ -19,6 +22,8 @@ export default function App() {
       setResult(data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -39,7 +44,7 @@ export default function App() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto space-y-8">
-        <InputForm onGenerate={generatePlan} />
+        <InputForm onGenerate={generatePlan} loading={isGenerating} />
         {result && <Result result={result} />}
       </main>
     </div>
