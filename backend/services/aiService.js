@@ -5,12 +5,12 @@ const ai = new GoogleGenAI({
 });
 
 async function explainMealAI(mealPlan) {
-  const prompt = `Explain this meal plan in simple terms:
+  const prompt = `who is spider-man:
 ${JSON.stringify(mealPlan, null, 2)}`;
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3-flash-preview",
       contents: prompt, // ✅ FIXED
     });
 
