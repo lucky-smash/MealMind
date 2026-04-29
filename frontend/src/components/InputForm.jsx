@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function InputForm({ onGenerate , loading }) {
+export default function InputForm({ onGenerate, loading }) {
   const [form, setForm] = useState({
     weight: "",
     goal: "fat_loss",
@@ -19,7 +19,7 @@ export default function InputForm({ onGenerate , loading }) {
       weight: Number(form.weight),
       budget: Number(form.budget),
     });
-  
+
   };
 
   return (
@@ -90,7 +90,7 @@ export default function InputForm({ onGenerate , loading }) {
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-brand-500 to-brand-600 disabled:opacity-50 border-radius-[10px]"
+        className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-brand-500 to-brand-600 disabled:opacity-50 rounded-2xl"
       >
         {loading ? "Generating..." : "Generate Meal Plan ✨"}
       </button>
