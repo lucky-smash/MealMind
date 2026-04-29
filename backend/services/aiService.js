@@ -10,19 +10,11 @@ ${JSON.stringify(mealPlan, null, 2)}`;
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview", // ✅ MATCH POSTMAN
-      contents: [
-        {
-          parts: [{ text: prompt }],
-        },
-      ],
+      model: "gemini-2.5-flash",
+      contents: prompt, // ✅ FIXED
     });
 
-    const text =
-      response.text ||
-      response.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    return text || "No AI response";
+    return response.text;
 
   } catch (err) {
     console.log("FULL ERROR:", err);
