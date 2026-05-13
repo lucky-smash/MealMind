@@ -2,6 +2,8 @@ import { useState } from "react";
 import InputForm from "./components/InputForm";
 import Result from "./components/Result.jsx";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function App() {
   const [result, setResult] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -10,7 +12,7 @@ export default function App() {
     if (isGenerating) return;
     setIsGenerating(true);
     try {
-      const res = await fetch("http://localhost:5000/api/meals/generate", {
+      const res = await fetch(`${API_URL}/api/meals/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
