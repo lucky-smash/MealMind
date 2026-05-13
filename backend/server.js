@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const cors = require('cors');
 
 const mealRoutes = require("./routes/mealRoutes");
@@ -14,12 +14,12 @@ app.use(express.json());
 app.use("/api/meals", mealRoutes);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mealmind', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mealmind', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// })
+//   .then(() => console.log('MongoDB connected'))
+//   .catch(err => console.log(err));
 
 // Routes
 app.get('/', (req, res) => {
