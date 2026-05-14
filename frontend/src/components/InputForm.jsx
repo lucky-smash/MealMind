@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Target, Coins, Scale, Leaf } from "lucide-react";
 
 export default function InputForm({ onGenerate, loading }) {
   const [form, setForm] = useState({
@@ -7,93 +8,130 @@ export default function InputForm({ onGenerate, loading }) {
     budget: "",
     preference: "veg_egg",
   });
-  // const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const setPreference = (pref) => {
+    setForm({ ...form, preference: pref });
+  };
+
+  const setGoal = (goal) => {
+    setForm({ ...form, goal: goal });
+  };
+
   const handleSubmit = async () => {
+    if (!form.weight || !form.budget) return;
     await onGenerate({
       ...form,
       weight: Number(form.weight),
       budget: Number(form.budget),
     });
-
   };
 
   return (
-    <div className="bg-surface-card border border-slate-700/50 rounded-2xl p-6 sm:p-8 shadow-xl shadow-black/20">
-      <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
-        <span className="w-8 h-8 rounded-lg bg-brand-500/20 flex items-center justify-center text-brand-400 text-sm">⚡</span>
-        Configure Your Plan
-      </h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        {/* Weight */}
-        <label className="block">
-          <span className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5 block">Weight</span>
-          <input
-            type="number"
-            name="weight"
-            placeholder="e.g. 70"
-            value={form.weight}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-surface-elevated border border-slate-600/50 rounded-xl text-white placeholder-slate-500 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 transition-all duration-200"
-          />
-          <span className="text-[11px] text-slate-500 mt-1 block">in kilograms</span>
-        </label>
-
-        {/* Budget */}
-        <label className="block">
-          <span className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5 block">Budget</span>
-          <input
-            type="number"
-            name="budget"
-            placeholder="e.g. 300"
-            value={form.budget}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-surface-elevated border border-slate-600/50 rounded-xl text-white placeholder-slate-500 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 transition-all duration-200"
-          />
-          <span className="text-[11px] text-slate-500 mt-1 block">daily budget in ₹</span>
-        </label>
-
-        {/* Goal */}
-        <label className="block">
-          <span className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5 block">Goal</span>
-          <select
-            name="goal"
-            value={form.goal}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-surface-elevated border border-slate-600/50 rounded-xl text-white outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 transition-all duration-200 appearance-none cursor-pointer"
-          >
-            <option value="fat_loss">🔥 Fat Loss</option>
-            <option value="muscle_gain">💪 Muscle Gain</option>
-          </select>
-        </label>
-
-        {/* Preference */}
-        <label className="block">
-          <span className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5 block">Preference</span>
-          <select
-            name="preference"
-            value={form.preference}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-surface-elevated border border-slate-600/50 rounded-xl text-white outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25 transition-all duration-200 appearance-none cursor-pointer"
-          >
-            <option value="veg">🥦 Veg</option>
-            <option value="veg_egg">🥦🥚 Veg + Egg</option>
-          </select>
-        </label>
+    <div className="max-w-2xl mx-auto bg-white border-2 border-slate-50 rounded-[2.5rem] p-8 sm:p-12 shadow-2xl shadow-slate-200/40 animate-fade-in-up">
+      <div className="text-center mb-10">
+        <h2 className="text-3xl sm:text-4xl font-serif text-slate-900 mb-2">Nutritional Audit Form</h2>
+        <p className="text-sm text-slate-500 font-medium">Configure your biological parameters for optimization.</p>
       </div>
 
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-brand-500 to-brand-600 disabled:opacity-50 rounded-2xl"
-      >
-        {loading ? "Generating..." : "Generate Meal Plan ✨"}
-      </button>
+      <div className="space-y-8 sm:space-y-10">
+        {/* Core Metrics */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
+              <Scale className="w-4 h-4 text-emerald-500" />
+              Weight (KG)
+            </label>
+            <input
+              type="number"
+              name="weight"
+              placeholder="00.0"
+              value={form.weight}
+              onChange={handleChange}
+              className="w-full text-3xl font-serif border-b-2 border-slate-50 py-2 focus:border-emerald-500 outline-none transition-all placeholder:text-slate-100 text-slate-900"
+            />
+          </div>
+
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
+              <Coins className="w-4 h-4 text-amber-500" />
+              Daily Budget (₹)
+            </label>
+            <input
+              type="number"
+              name="budget"
+              placeholder="000"
+              value={form.budget}
+              onChange={handleChange}
+              className="w-full text-3xl font-serif border-b-2 border-slate-50 py-2 focus:border-emerald-500 outline-none transition-all placeholder:text-slate-100 text-slate-900"
+            />
+          </div>
+        </div>
+
+        {/* Primary Protocol (Goal) */}
+        <div className="space-y-4">
+          <label className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
+            <Target className="w-4 h-4 text-slate-900" />
+            Optimization Protocol
+          </label>
+          <div className="flex p-1.5 bg-slate-50/50 rounded-2xl border border-slate-100">
+            {[
+              { id: 'fat_loss', label: 'Fat Loss' },
+              { id: 'muscle_gain', label: 'Muscle Gain' }
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setGoal(item.id)}
+                className={`flex-1 py-3 text-xs font-bold rounded-xl transition-all ${
+                  form.goal === item.id 
+                    ? 'bg-white text-slate-900 shadow-lg shadow-slate-200/50 ring-1 ring-slate-100' 
+                    : 'text-slate-400 hover:text-slate-600'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Diet Preference */}
+        <div className="space-y-4">
+          <label className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
+            <Leaf className="w-4 h-4 text-emerald-600" />
+            Dietary Constraints
+          </label>
+          <div className="flex p-1.5 bg-slate-50/50 rounded-2xl border border-slate-100">
+            {[
+              { id: 'veg', label: 'Vegetarian' },
+              { id: 'veg_egg', label: 'Veg + Egg' }
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setPreference(item.id)}
+                className={`flex-1 py-3 text-xs font-bold rounded-xl transition-all ${
+                  form.preference === item.id 
+                    ? 'bg-white text-slate-900 shadow-lg shadow-slate-200/50 ring-1 ring-slate-100' 
+                    : 'text-slate-400 hover:text-slate-600'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button
+          onClick={handleSubmit}
+          disabled={loading || !form.weight || !form.budget}
+          className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-[0.25em] text-[11px] transition-all hover:bg-black hover:shadow-2xl hover:shadow-slate-300 active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed group overflow-hidden relative"
+        >
+          <span className="relative z-10">{loading ? "Optimizing..." : "Initiate Audit"}</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-emerald-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+        </button>
+      </div>
     </div>
   );
 }

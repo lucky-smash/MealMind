@@ -1,44 +1,80 @@
+import React from 'react';
 import MealCard from "./MealCard";
-import InsightBox from "./InsightBox";
 import AIExplanation from "./AIExplanation";
+import PerformanceMetrics from "./PerformanceMetrics";
+import DishSuggestions from "./DishSuggestions";
+import { ListChecks, Sparkles } from 'lucide-react';
 
 export default function Result({ result }) {
+    // Mapping backend property names to common ones if needed
+    const normalizedResult = {
+        ...result,
+        totalProtein: result.achievedProtein || result.targetProtein,
+        totalCost: result.totalCost
+    };
+
     return (
-        <div className="space-y-6 animate-[fadeIn_0.5s_ease-out]">
-            {/* Stats Bar */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-surface-card border border-slate-700/50 rounded-2xl p-5 text-center">
-                    <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Target Protein</p>
-                    <p className="text-2xl font-bold text-brand-400">{result.targetProtein}<span className="text-sm text-slate-400 ml-0.5">g</span></p>
-                </div>
-                <div className="bg-surface-card border border-slate-700/50 rounded-2xl p-5 text-center">
-                    <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Achieved Protein</p>
-                    <p className="text-2xl font-bold text-emerald-400">{result.achievedProtein}<span className="text-sm text-slate-400 ml-0.5">g</span></p>
-                </div>
-                <div className="bg-surface-card border border-slate-700/50 rounded-2xl p-5 text-center">
-                    <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Total Cost</p>
-                    <p className="text-2xl font-bold text-amber-400">₹{result.totalCost}</p>
-                </div>
+        <div className="max-w-6xl mx-auto px-6 py-12 space-y-20">
+            {/* 1. Performance Section */}
+            <div className="animate-fade-in">
+                <PerformanceMetrics result={normalizedResult} />
             </div>
 
-            {/* Meals */}
-            <div>
-                <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-lg bg-brand-500/20 flex items-center justify-center text-brand-400 text-sm">🍽️</span>
-                    Your Meal Plan
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {Object.entries(result.meals || {}).map(([meal, items]) => (
-                        <MealCard key={meal} title={meal} items={items} />
+            {/* 2. Meal Protocol Section */}
+            <div className="animate-fade-in-up">
+                <div className="flex items-center gap-3 mb-8 pb-4 border-b border-slate-100">
+                    <div className="p-2 bg-slate-900 rounded-xl shadow-lg shadow-slate-200">
+                        <ListChecks className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <h2 className="text-3xl font-serif text-slate-900 leading-none mb-1">Meal Protocol</h2>
+                        <p className="text-[11px] text-slate-400 font-black uppercase tracking-[0.2em]">3-Phase Optimization</p>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    {['breakfast', 'lunch', 'dinner'].map((mealType) => (
+                        result.meals[mealType] && (
+                            <MealCard
+                                key={mealType}
+                                title={mealType}
+                                items={result.meals[mealType]}
+                            />
+                        )
                     ))}
                 </div>
             </div>
 
-            {/* Insight */}
-            <InsightBox text={result.insight} />
+            {/* 3. Recommended Dishes Section */}
+            <div className="animate-fade-in-up">
+                <DishSuggestions />
+            </div>
 
-            {/* AI Explanation */}
-            <AIExplanation text={result.aiExplanation} />
+            {/* 4. AI Analysis Section (Intelligence) */}
+            <div className="animate-fade-in-up">
+                <div className="flex items-center gap-3 mb-8 pb-4 border-b border-slate-100">
+                    <div className="p-2 bg-emerald-500 rounded-xl shadow-lg shadow-emerald-200">
+                        <Sparkles className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <h2 className="text-3xl font-serif text-slate-900 leading-none mb-1">Intelligence</h2>
+                        <p className="text-[11px] text-emerald-600 font-black uppercase tracking-[0.2em]">Bespoke Stack Analysis</p>
+                    </div>
+                </div>
+                <AIExplanation text={result.aiExplanation} />
+            </div>
+
+            {/* Compact Footer */}
+            <div className="py-12 border-t border-slate-50 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.4em]">
+                    BioMetric Audit Protocol v4.0
+                </p>
+                <div className="flex gap-4">
+                    <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Data Verified</span>
+                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">|</span>
+                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">End of Stack</span>
+                </div>
+            </div>
         </div>
     );
 }
